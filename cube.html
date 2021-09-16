@@ -1,3 +1,4 @@
+//Estructura del HTML el cual es el que contiene la informacion basica 
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,29 +10,47 @@
 	</style>
 </head>
 <body>
+
+//libreria atraves de enlace de three.js
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 
+//Renderizador de imagen para que sea visible
 	var renderer = new THREE.WebGLRenderer({antialias:true});
-	renderer.setSize(WIDTH, HEIGHT);
-	renderer.setClearColor(0xDDDDDD, 1);
+	renderer.setSize(WIDTH, HEIGHT);    //Ancho de la ventana
+	renderer.setClearColor(0xDDDDDD, 1); //Alto de la  ventana 
 	document.body.appendChild(renderer.domElement);
 
+//Escena, se declara o se crea una nueva escena donde se ubicara la figura 
 	var scene = new THREE.Scene();
 
-	var camera = new THREE.PerspectiveCamera(70, WIDTH/HEIGHT);
-	camera.position.z = 50;
+//posicion de la camara mostrando la escena 
+	var camera = new THREE.PerspectiveCamera(70, WIDTH/HEIGHT); //tamaño de la camara
+	camera.position.z = 60;
+        camera.position.x = 35;
+  
+// se agrega la camara en la escena
 	scene.add(camera);
 
-	var boxGeometry = new THREE.BoxGeometry(10, 10, 10);
-	var basicMaterial = new THREE.MeshBasicMaterial({color: 0x0095DD});
-	var cube = new THREE.Mesh(boxGeometry, basicMaterial);
-	scene.add(cube);
-	cube.rotation.set(0.4, 0.2, 0);
+// se muestran atreves de lineas las coordenadas x y z
+const ejezXYZ = new THREE.AxesHelper( 35 );
+scene.add( ejezXYZ);
 
-	function render() {
+//son todas la caracteristicas del objeto  desde las dimensiones que va a tener, el color de este. La creacion del objeto.  
+	var boxGeometry = new THREE.BoxGeometry(10, 10, 10); //Dimensiones de la "caja"
+	var basicMaterial = new THREE.MeshLambertMaterial({color: 0xEAEFF2}); //Color de la "caja"
+	var cube = new THREE.Mesh(boxGeometry, basicMaterial); // se crea la figura
+
+// se añade el objeto en la escena 
+	scene.add(cube);
+	cube.rotation.set(0.4, 0.2, 0);//  la rotacion en radianes del cubo con respecto a la camara
+	
+        var light = new THREE.PointLight(0xFFFFFF);
+	light.position.set(-10, 15, 50);
+	scene.add(light);
+	function render() {   //Esta es una funcion donde se renderizar la escena y la camara
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
 	}
